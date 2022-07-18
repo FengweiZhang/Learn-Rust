@@ -57,6 +57,30 @@ tab 是4个空格
 
 - 位于 target/release
 
+`cargo update`
+
+-   忽略 .lock 文件，寻找合适的包，保持小版本号 0.1.xxx
+-   不会修改 .toml 文件
+
+
+
 
 
 ## guess num
+
+
+crates.io
+
+- 库的网址
+
+
+
+添加包
+
+手动在 Cargo.toml 中添加
+
+```toml
+[dependencies]
+rand  = "^0.3.14" # 0.3.14 及以上
+```
+
