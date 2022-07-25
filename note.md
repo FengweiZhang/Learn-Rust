@@ -630,3 +630,137 @@ let a = [1,2,3,4,5];
 let slice = &a[1..3];	// 数组切片，stack 中存储指针+
 ```
 
+
+
+## Struct
+
+### Struct 基础
+
+```rust
+// 定义
+struct User{
+    username: String,
+    email: String,
+    active: bool,
+}
+
+// 实例化
+// 顺序可以打乱
+// 必须对全部字段赋值
+// struct 可变则全部字段可变
+let user1 = User{
+    email: String::from("asd@sjtu.edu.cn"),
+    username: String::from("fg"),
+    active: true,
+};
+
+// 取字段
+user1.email // balabala
+
+// 字段初始化简写
+// 字段名与参数名相同
+fn build_user(email: String, username: String)->User{
+    User{
+ 		email,
+        username,
+        active: true;
+    }
+}
+
+// struct 更新语法
+// 基于一个 struct 创建新的 struct
+let user2 = User{
+    email: String::from("123@sjtu.edu.cn"),
+    username: String::from("123"),
+    ..user1	// 与user1有相同的值
+};
+
+// tuple struct
+// 整体有名，字段没名
+// 给整个 tuple 起名使不同于其他 tuple
+struct Color(i32, u32, i32)
+
+// Unit-Like Struct
+// 没有任何字段的Struct
+// 适用于在某个类型上实现 trait，但是在里头没有想要存储的数据
+
+```
+
+### Struct 的所有权
+
+-   本例中 User 的字段使用的是 String 类型，struct 拥有全部的所有权，只要 struct 有效，字段就有效
+-   若使用 &str，则需要使用生命周期（lifetime），以保证在 struct 有效的时候，里头的引用也是有效的
+
+
+
+### Struct 与 println!
+
+需要实现 `std::fmt::Display` 以直接放入 `println!` 的占位符中输出
+
+但是 rust 提供了一些 macro 输出调试信息 `std::fmt::Debug`
+
+-   现在 struct 定义前加上 `#[derive(Debug)]`
+-   然后有两种占位符输出：`{:?}` `{:#?}`
+
+
+
+### Struct 方法
+
+方法
+
+-   与函数类似：fn 关键字、名称、参数、返回值
+-   不同：
+    -   在 struct、enum、trait 对象的上下文定义
+    -   第一个参数是 self，无需传这个参数，self 可以是借用，也可以获得所有权，甚至可变
+-   调用 
+    -   `实例.方法名()`
+    -   **会自动引用或解引用**
+
+```rust
+struct Rectangle {
+    width: u32,
+    length: u32,
+}
+
+impl Rectangle{
+    fn area (&self) -> u32{
+        self.width * self.length
+    }
+}
+
+fn main() {
+    let rect = Rectangle{
+        width: 30,
+        length: 50,
+    };
+    println!("{}", rect.area());
+}
+```
+
+
+
+### Struct 关联函数
+
+是函数，不是方法，第一个参数不是 self 相关
+
+-   例如：String::from()
+-   常用与构造器
+
+```rust
+impl Rectangle{
+    fn square (size: u32) -> Rectangle{
+        Rectangle {
+            width: size,
+            width: size,
+        }
+    }
+}
+
+```
+
+
+
+`::` 用于
+
+-   关联函数
+-   模块创建的命名
