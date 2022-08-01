@@ -764,3 +764,165 @@ impl Rectangle{
 
 -   关联函数
 -   模块创建的命名
+
+
+
+
+
+## 枚举
+
+### 基本操作
+
+```rust
+// 定义
+enum IpAddrkind {
+    V4,
+    V6,
+}
+
+
+// 创建，使用命名空间
+// 可以定义函数返回枚举类型
+let four = IpAddrKind::V4;
+
+```
+
+
+
+### 将数据附加到枚举的变体中
+
+```rust
+// 无需额外使用 struct
+enum IpAddr {
+    V4(String),
+    V6(String),
+}
+
+// 每个变体可以有不同的类型与关联的数据量
+enum IpAddr {
+    V4(u8.u8.u8.u8),
+    V6(String),
+}
+
+let home = IpAddr:;V4(127.0.0.1);
+let loopback  = IpAddr::V6(String::from("::1"));
+```
+
+
+
+### 为枚举定义方法
+
+```rust
+enum Message {
+    Quit,
+    Move {x: i32, y: i32}, // 匿名结构体
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+impl Message{
+ 	fn call(&self){
+        
+    }
+}
+```
+
+
+
+### Option 枚举
+
+定义在标准库中，在 Prelude 模块中（预导入）
+
+可能存在的值，用来代替 Null 
+
+```rust
+enunm Option<T> {
+	Some(T),
+	None,
+}
+```
+
+使用
+
+```rust
+let s1 = Some(5);
+let s2 = Some("A Stering");
+
+let s3: Option<i32> = None;
+```
+
+不可以将 Option 与 常规的值进行直接运算
+
+需要先手动转换（同时进行了空值处理）
+
+
+
+### 控制流运算符 Match
+
+基础用法
+
+```rust
+enum Coin{
+    Pp,
+    Tt,
+    Cc,
+}
+
+fn convert(coin: Coin) -> u8 {
+    match coin{
+        Coin::Pp=>1,	// 对应多行代码需要使用花括号
+        Coin::Tt=>2,
+        Coin::Cc=>3,
+    }
+}
+```
+
+绑定值的模式匹配
+
+```rust
+#[derive(Debug)]
+enum Typ{
+    Abc,
+    Bcd,
+}
+
+enum Coin{
+    Pp,
+    Tt,
+    Cc(Typ),
+}
+
+fn convert(coin: Coin) -> u8 {
+    match coin{
+        Coin::Pp=>1,
+        Coin::Tt=>2,
+        Coin::Cc(t)=>{	// 在这里进行值的绑定
+        	println!("{:?}", t);
+            3
+        },
+    }
+}
+```
+
+
+
+注：match 必须穷举所有可能
+
+可以使用 `_` 作为其他情况的通配符
+
+
+
+### 简单的控制流 if let 
+
+只关心一种匹配
+
+```rust
+let v = Some(0u8);
+
+if let Some(3) = v {	// 注意这里是一个 =（而非两个）
+    println!("three");
+} else {
+  	println!("others");  
+};
+```
+
